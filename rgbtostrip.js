@@ -84,10 +84,15 @@ var rgbtostrip = {
 		console.log('start mode: ' + this.mode);
 		if(this.mode == 'single') {
 			this.fader.stopFade();
+			this.blinker.stopBlink();
 			this.setColor(this.h, this.v);
 		} else if(this.mode == 'fade') {
 	       this.fader.startFade(this);
-		}	
+	       this.blinker.stopBlink();
+		} else if(this.mode == 'blink') {
+			this.fader.stopFade();
+	       	this.blinker.startBlink(this);
+		}		
 	},
 	
 	stopMode: function() {
@@ -108,18 +113,35 @@ var rgbtostrip = {
    	  				this.hue = 0.0;
    	  			}
    	  			
-   	  			colorarray = rgbtostrip.hsvToRgb(this.hue/360.0, 1, rgbtostrip.v/100.0);
-        		rgbtostrip.setColorStrip(colorarray[0], colorarray[1], colorarray[2]);   
-        	
+        		rgbtostrip.setColor(this.hue, rgbtostrip.v, true);   
                }).bind(this), 10 ); 
       	},
       	
     	stopFade: function() {
             clearInterval(this.iv);
-            console.log('Stopped fader!');
+            console.log('Stopped fader');
       	}
  
     },
+    
+	blinker: {
+   		onoff: false,
+   		startBlink: function() {
+   	  		this.blinkiv = setInterval( function() {
+                if(!this.onoff) {
+                   rgbtostrip.setColor(rgbtostrip.blinkHue, rgbtostrip.blinkV, true);
+                } else {
+                   rgbtostrip.setColorStrip(0, 0, true);
+                }
+                this.onoff = !this.onoff;
+             }, rgbtostrip.blinkFrequency ); 
+      	},
+      
+    	stopBlink: function() {
+            clearInterval(this.blinkiv);
+            console.log('Stopped blinker');
+      	}
+  	},
     
     hsvToRgb: function(h, s, v) {
     	var r, g, b;

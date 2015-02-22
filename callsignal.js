@@ -72,21 +72,25 @@ var callsignal = {
   			if(cmd == 'RING') {
      			msisdn = getIncomingMSISDN(data.toString());
      			blinkdata = callsignal.getCalldata(msisdn);
+     			rgbtostrip.blinkHue = blinkdata.hue;
+     			rgbtostrip.blinkV = blinkdata.v;
+     			rgbtostrip.blinkFrequency = blinkdata.frequency;
      			console.log('Its ringing: ' + msisdn);
-     			blinker.startBlink(blinkdata);  
+     			this.orgMode = rgbtostrip.mode;
+     			rgbtostrip.setMode('blink');  
   			}
   		
   			if(cmd == 'CONNECT') {
      			console.log('Its connecting');
-     			blinker.stopBlink();
+     			rgbtostrip.setMode(this.orgMode);
   			}
   		
   			if(cmd == 'DISCONNECT') {
      			console.log('Its disconnecting');
-     			blinker.stopBlink();
-  			}
+     			rgbtostrip.setMode(this.orgMode);
+   			}
 
-  			console.log(data.toString());
+  			// console.log(data.toString());
 		});
 		
 		client.on('end', function() {
@@ -108,31 +112,6 @@ function getIncomingMSISDN(input) {
    var cmd = params[3];
    return cmd;
 }
-
-
-var blinker = {
-   onoff: false,
-   startBlink: function(blinkdata) {
-   	  rgbtostrip.stopMode();
-      this.iv = setInterval( function() {
-                if(!this.onoff) {
-                   rgbtostrip.setColor(blinkdata.hue, blinkdata.v, true);
-                } else {
-                   rgbtostrip.setColorStrip(0, 0, true);
-                }
-                this.onoff = !this.onoff;
-             }, blinkdata.frequency ); 
-      },
-    stopBlink: function() {
-            clearInterval(this.iv);
-            rgbtostrip.setColorStrip(0, 0, true);
-            rgbtostrip.startMode();
-            console.log('Stopped interval!');
-      }
-  }
-
-
-
 
 module.exports = callsignal;
         
