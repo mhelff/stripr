@@ -29,16 +29,16 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-    <!-- link rel="stylesheet" href="stripr.css" -->
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
     
   </head>
-  <body>
+  <body ng-app>
     
     <div class="container">
 	  <h2>Stripr</h2>
       <tabset>
         <tab heading="Farbe">
-            <div ng-controller="StriprController"> 
+            <div ng-controller="StriprController as striprCtrl"> 
            	<div class="btn-group btn-group-justified">
         		<label class="btn btn-primary" ng-model="colorMode" btn-radio="'single'">Einfarbig</label>
         		<label class="btn btn-primary" ng-model="colorMode" btn-radio="'fade'">Farbverlauf</label>
@@ -65,7 +65,7 @@
         <tab heading="Telefonie">
         	<div ng-controller="CalldataController as calldataCtrl">
         	<accordion close-others="'true'">
-        		<accordion-group ng-repeat="(key, value) in calldata" is-open="status.open">
+        		<accordion-group ng-repeat="(key, value) in calldataCtrl.calldata" is-open="status.open">
         			<accordion-heading>
         				{{value.name}}
         				<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
@@ -73,7 +73,7 @@
         			<form name="form">
         			<div class="form-group">
       					<label>Telefonnummer:</label>
-      					<input type="text" ng-model="key" class="form-control">
+      					<input type="text" ng-model="key" class="form-control" readonly>
     
         				<label>Name:</label>
       					<input type="text" ng-model="value.name" class="form-control">
@@ -96,8 +96,8 @@
     					</div>
     				</div>
     				</form>
-    				<button type="button" class="btn btn-primary" ng-show="!form.$pristine && !form.$invalid" ng-click="saveCalldata()">Speichern</button>    				
-       				<i class="pull-right icon-large glyphicon glyphicon-trash" ng-show="key!='*'" ng-click="removeCalldata(key)"></i>
+    				<button type="button" class="btn btn-primary" ng-show="!form.$pristine && !form.$invalid" ng-click="calldataCtrl.saveCalldata()">Speichern</button>    				
+       				<i class="pull-right icon-large glyphicon glyphicon-trash" ng-show="key!='*'" ng-click="calldataCtrl.removeCalldata(key)"></i>
     			</accordion-group>
     			<accordion-group is-open="statusadd.open">
     			    <accordion-heading>
@@ -107,30 +107,30 @@
 					<form name="newform">
      				<div class="form-group">
       					<label>Telefonnummer:</label>
-      					<input type="text" ng-model="m" class="form-control">
+      					<input type="text" ng-model="calldataCtrl.m" class="form-control">
     
         				<label>Name:</label>
-      					<input type="text" ng-model="n" class="form-control">
+      					<input type="text" ng-model="calldataCtrl.n" class="form-control">
         				
         				<label>Farbe:</label>
         				<div style="background: linear-gradient(90deg, red, yellow, green, blue, purple, red);">
-    						<input style="height:4em;" type="range" ng-model="h" min="0" step="1" max="360">
+    						<input style="height:4em;" type="range" ng-model="calldataCtrl.hu" min="0" step="1" max="360">
     					</div>
     					
     					<label>Helligkeit:</label>
     					<div style="background: linear-gradient(90deg, black, white);">
-    						<input style="height:4em;"  type="range" ng-model="v" min="0" step="1" max="100">
+    						<input style="height:4em;"  type="range" ng-model="calldataCtrl.va" min="0" step="1" max="100">
     					</div>           
     				
 						<label>Blinken:</label><br>
 						<div class="btn-group">
-        					<label class="btn btn-primary" ng-model="f" btn-radio="'100'" uncheckable>Schnell</label>
-        					<label class="btn btn-primary" ng-model="f" btn-radio="'500'" uncheckable>Normal</label>
-        					<label class="btn btn-primary" ng-model="f" btn-radio="'1000'" uncheckable>Langsam</label>
+        					<label class="btn btn-primary" ng-model="calldataCtrl.f" btn-radio="'100'" uncheckable>Schnell</label>
+        					<label class="btn btn-primary" ng-model="calldataCtrl.f" btn-radio="'500'" uncheckable>Normal</label>
+        					<label class="btn btn-primary" ng-model="calldataCtrl.f" btn-radio="'1000'" uncheckable>Langsam</label>
     					</div>
     				</div>
+    				<button type="button" class="btn btn-primary" ng-disabled="newform.$pristine|| newform.$invalid" ng-click="calldataCtrl.addCalldata()">Hinzufügen</button>
     				</form>
-    				<button type="button" class="btn btn-primary" ng-disabled="newform.$pristine|| newform.$invalid" ng-click="addCalldata(m, n, h, v, f)">Hinzufügen</button>
     			</accordion-group>
     		</accordion>
         	</div>

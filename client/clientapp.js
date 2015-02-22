@@ -45,6 +45,12 @@ app.isSending = false;
        		$scope.slideDelegate();
     	}
  	});
+ 	
+ 	$scope.$watch('m', function(value) {
+    	if(value !== undefined) {
+       		console.log('found m: ' + value);
+    	}
+ 	});
  	          		
   	$scope.slideDelegate = function() {
   		if($scope.colorMode == 'single') {
@@ -55,6 +61,8 @@ app.isSending = false;
   		
           if(!app.isSending) {
           	app.isSending = true;
+          	payload = '{"s": ' + $scope.speed + ', "h": ' + $scope.h + ', "v": ' + $scope.v + ', "mode": "' + $scope.colorMode + '"}';
+          	console.log('sending: ' + payload);
           	$http.post('/setlight', '{"s": ' + $scope.speed + ', "h": ' + $scope.h + ', "v": ' + $scope.v + ', "mode": "' + $scope.colorMode + '"}').
     			success(function(data, status, headers, config) {
     			     app.isSending = false;
@@ -72,27 +80,26 @@ app.isSending = false;
   			
 }]);
 
-app.controller('CalldataController', ['$scope', "$http", function ($scope, $http) {
+app.controller('CalldataController', ["$http", function ($http) {
 	
-	$scope.calldata = {};
-	
-	$scope.m = '';
-	$scope.h = '0';
-	$scope.v = '100';
-	$scope.f = '500';
-	$scope.n = '';
+	this.calldata = {};
+	this.m = '';
+	this.hu = '0';
+	this.va = '100';
+	this.f = '500';
+	this.n = '';
 	
 	$http.get('/getcalldata').
     	success(function(data, status, headers, config) {
     		console.log(data);
-      		$scope.calldata = data;
-    	}).
+      		this.calldata = data;
+    	}.bind(this)).
     	error(function(data, status, headers, config) {
       		console.log('Could not read calldata');
     });
     
-    $scope.saveCalldata = function() {
-    	$http.post('/setcalldata', JSON.stringify($scope.calldata)).
+    this.saveCalldata = function() {
+    	$http.post('/setcalldata', JSON.stringify(this.calldata)).
     			success(function(data, status, headers, config) {
     			     console.log('updated calldata');
     			}).
@@ -101,16 +108,21 @@ app.controller('CalldataController', ['$scope', "$http", function ($scope, $http
     		});
     }
     
-    $scope.removeCalldata = function(msisdn) {
-    	delete $scope.calldata[msisdn];
-    	$scope.saveCalldata();
+    this.removeCalldata = function(msisdn) {
+    	delete this.calldata[msisdn];
+    	this.saveCalldata();
     }
     
-    $scope.addCalldata = function(m, n, h, v, f) {
-    	console.log('New: ' + m);
-    	$scope.calldata[m] = { 'hue': h, 'v': v, 'frequency': f, 'name': n };
-    	$scope.saveCalldata();
+    this.addCalldata = function() {
+    	this.calldata[this.m] = { 'hue': this.hu, 'v': this.va, 'frequency': this.f, 'name': this.n };
+    	this.saveCalldata();
     	
+    	// reset form
+    	this.m = '';
+    	this.hu = '0';
+		this.va = '100';
+		this.f = '500';
+		this.n = '';    	
      }
 
 
