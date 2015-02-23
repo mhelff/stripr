@@ -25,7 +25,7 @@ app.isSending = false;
  	
  app.controller('StriprController', ['$scope', "$http", function ($scope, $http) {
   	
-  	$scope.testStyle = {'height': '4em', '-webkit-slider-runnable-track': { 'height': '4em' }};	  	
+  	$scope.testStyle = {'-webkit-slider-runnable-track': '{height: 4em; width: 100%; background: rgba(1,1,1,0)}', '-webkit-appearance': 'none'};	  	
   		  	    
   	$http.get('/getlight').
     	success(function(data, status, headers, config) {
@@ -54,9 +54,11 @@ app.isSending = false;
  	          		
   	$scope.slideDelegate = function() {
   		if($scope.colorMode == 'single') {
-  			$scope.brightnessStyle = {'background':'linear-gradient(90deg, black, ' + calculateHtmlColor($scope.h, 100.0) + ')'};
+  			//$scope.brightnessStyle = {'background':'linear-gradient(90deg, black, ' + calculateHtmlColor($scope.h, 100.0) + ')'};
+  			less.modifyVars({'track-color':'linear-gradient(90deg, black, ' + calculateHtmlColor($scope.h, 100.0) + ')'});
   		} else {
-  			$scope.brightnessStyle = {'background':'linear-gradient(90deg, black, white)'};
+  			//$scope.brightnessStyle = {'background':'linear-gradient(90deg, black, white)'};
+  			less.modifyVars({'track-color':'linear-gradient(90deg, black, white)'});
   		}
   		
           if(!app.isSending) {
