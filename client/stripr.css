@@ -13,18 +13,18 @@
   box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
   background: linear-gradient(90deg, red, yellow, green, blue, purple, red);
   border-radius: 0.5em;
-  border: 1px solid #010101;
+  border: 0.1em solid black;
 }
 .rainbox input[type=range]::-webkit-slider-thumb {
   box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
-  border: 1px solid #000000;
+  border: 0.2em solid white;
   height: 4em;
   width: 4em;
   border-radius: 2em;
-  background: #ffffff;
+  background: transparent;
   cursor: pointer;
   -webkit-appearance: none;
-  margin-top: -0.8px;
+  margin-top: -1px;
 }
 .rainbox input[type=range]:focus::-webkit-slider-runnable-track {
   background: linear-gradient(90deg, red, yellow, green, blue, purple, red); 
@@ -45,6 +45,9 @@
 .whitebox input[type=range]:focus::-webkit-slider-runnable-track {
   background: white;
 }
+.whitebox input[type=range]::-webkit-slider-thumb {
+  border: 0.2em solid black;
+}
 
 input[type=range]::-moz-range-track {
   width: 100%;
@@ -61,7 +64,7 @@ input[type=range]::-moz-range-thumb {
   height: 4em;
   width: 4em;
   border-radius: 2em;
-  background: #ffffff;
+  background: transparent;
   cursor: pointer;
 }
 input[type=range]::-ms-track {
@@ -89,7 +92,7 @@ input[type=range]::-ms-thumb {
   border: 1px solid #000000;
   width: 4em;
   border-radius: 2em;
-  background: #ffffff;
+  background: transparent;
   cursor: pointer;
   height: 4em;
 }
