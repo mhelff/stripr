@@ -42,7 +42,7 @@ app.isSending = false;
     
     $scope.$watch('colorMode', function(value) {
     	if(value !== undefined) {
-       		$scope.slideDelegate();
+       		$scope.slideDelegate(true);
     	}
  	});
  	
@@ -52,16 +52,16 @@ app.isSending = false;
     	}
  	});
  	          		
-  	$scope.slideDelegate = function() {
-  		if($scope.colorMode == 'single') {
-  			//$scope.brightnessStyle = {'background':'linear-gradient(90deg, black, ' + calculateHtmlColor($scope.h, 100.0) + ')'};
-  			less.modifyVars({'track-color':'linear-gradient(90deg, black, ' + calculateHtmlColor($scope.h, 100.0) + ')'});
-  		} else {
-  			//$scope.brightnessStyle = {'background':'linear-gradient(90deg, black, white)'};
-  			less.modifyVars({'track-color':'linear-gradient(90deg, black, white)'});
+  	$scope.slideDelegate = function(updateBrightness) {
+  		if(updateBrightness) {
+  			if($scope.colorMode == 'single') {
+  				less.modifyVars({'track-color':'linear-gradient(90deg, black, ' + calculateHtmlColor($scope.h, 100.0) + ')'});
+  			} else {
+  				less.modifyVars({'track-color':'linear-gradient(90deg, black, white)'});
+  			}
   		}
   		
-          if(!app.isSending) {
+        if(!app.isSending) {
           	app.isSending = true;
           	payload = '{"s": ' + $scope.speed + ', "h": ' + $scope.h + ', "v": ' + $scope.v + ', "mode": "' + $scope.colorMode + '"}';
           	console.log('sending: ' + payload);

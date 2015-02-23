@@ -49,18 +49,18 @@
     		<div ng-show="colorMode=='single'">
     			Farbe:
     			<div class="rainbox">
-    			<input type="range" ng-model="h" min="0" step="1" max="360" ng-change="slideDelegate()">
+    			<input type="range" ng-model="h" min="0" step="1" max="360" ng-change="slideDelegate(true)">
     			</div>
     		</div>
     		<div ng-show="colorMode=='fade'">
     			Geschwindingkeit:
     			<div class="rainbox whitebox">
-    			<input type="range" ng-model="speed" min="1" step="1" max="100" ng-change="slideDelegate()">
+    			<input type="range" ng-model="speed" min="1" step="1" max="100" ng-change="slideDelegate(false)">
     			</div>
     		</div>
     		<div><br>Helligkeit:</div>
     		<div class="brightbox">
-    			<input type="range" ng-model="v" min="0" step="1" max="100" ng-change="slideDelegate()">
+    			<input type="range" ng-model="v" min="0" step="1" max="100" ng-change="slideDelegate(false)">
     		</div>           
     		</div>
     	</tab>
