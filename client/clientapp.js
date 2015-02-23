@@ -19,9 +19,45 @@
 
 */
 
-var app = angular.module('stripr', ['ui.bootstrap']);
+var app = angular.module('stripr', ['ui.bootstrap', 'pascalprecht.translate']);
 
 app.isSending = false;
+
+app.config(function($translateProvider) {
+  $translateProvider.translations('en', {
+    COLOR: 'Color',
+    SINGLE_COLOR: 'Single color',
+    COLOR_FADING: 'Color fading',
+    BRIGHTNESS: 'Brightness',
+    SPEED: 'Speed',
+    MSISDN: 'MSISDN',
+    NAME: 'Name',
+    SAVE: 'Save',
+    ADD: 'Add',
+    SLOW: 'Slow',
+    MEDIUM: 'Medium',
+    FAST: 'Fast',
+    NEW_RECORD: 'New',
+    BLINK: 'Blink',
+  })
+  .translations('de', {
+    COLOR: 'Farbe',
+    SINGLE_COLOR: 'Einfarbig',
+    COLOR_FADING: 'Farbverlauf',
+    BRIGHTNESS: 'Helligkeit',
+    SPEED: 'Geschwindigkeit',
+    MSISDN: 'Telefonnummer',
+    NAME: 'Name',
+    SAVE: 'Speichern',
+    ADD: 'Hinzufügen',
+    SLOW: 'Langsam',
+    MEDIUM: 'Normal',
+    FAST: 'Schnell',
+    NEW_RECORD: 'Neuer Eintrag',
+    BLINK: 'Blinken',
+  });
+  $translateProvider.preferredLanguage(window.navigator.userLanguage || window.navigator.language);
+});
  	
  app.controller('StriprController', ['$scope', "$http", function ($scope, $http) {
   	

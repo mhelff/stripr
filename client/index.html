@@ -39,26 +39,26 @@
     <div class="container">
 	  <h2>Stripr</h2>
       <tabset>
-        <tab heading="Farbe">
+        <tab heading="{{ 'COLOR' | translate }}">
             <div ng-controller="StriprController as striprCtrl"> 
            	<div class="btn-group btn-group-justified">
-        		<label class="btn btn-primary" ng-model="colorMode" btn-radio="'single'">Einfarbig</label>
-        		<label class="btn btn-primary" ng-model="colorMode" btn-radio="'fade'">Farbverlauf</label>
+        		<label class="btn btn-primary" ng-model="colorMode" btn-radio="'single'">{{ 'SINGLE_COLOR' | translate }}</label>
+        		<label class="btn btn-primary" ng-model="colorMode" btn-radio="'fade'">{{ 'COLOR_FADING' | translate }}</label>
     		</div>
     		<br>
     		<div ng-show="colorMode=='single'">
-    			Farbe:
+    			{{ 'COLOR' | translate }}:
     			<div class="rainbox">
     			<input type="range" ng-model="h" min="0" step="1" max="360" ng-change="slideDelegate(true)">
     			</div>
     		</div>
     		<div ng-show="colorMode=='fade'">
-    			Geschwindingkeit:
+    			{{ 'SPEED' | translate }}:
     			<div class="rainbox whitebox">
     			<input type="range" ng-model="speed" min="1" step="1" max="100" ng-change="slideDelegate(false)">
     			</div>
     		</div>
-    		<div><br>Helligkeit:</div>
+    		<div><br>{{ 'BRIGHTNESS' | translate }}:</div>
     		<div class="brightbox">
     			<input type="range" ng-model="v" min="0" step="1" max="100" ng-change="slideDelegate(false)">
     		</div>           
@@ -74,23 +74,23 @@
         			</accordion-heading>
         			<form name="form">
         			<div class="form-group">
-      					<label>Telefonnummer:</label>
+      					<label>{{ 'MSISDN' | translate }}:</label>
       					<input type="text" ng-model="key" class="form-control" readonly>
     
-        				<label>Name:</label>
+        				<label>{{ 'NAME' | translate }}:</label>
       					<input type="text" ng-model="value.name" class="form-control">
         				
-        				<label>Farbe:</label>
+        				<label>{{ 'COLOR' | translate }}:</label>
         				<div class="rainbox">
     						<input type="range" ng-model="value.hue" min="0" step="1" max="360">
     					</div>
     					
-    					<label>Helligkeit:</label>
+    					<label>{{ 'BRIGHTNESS' | translate }}:</label>
     					<div class="rainbox graybox">
     						<input type="range" ng-model="value.v" min="0" step="1" max="100">
     					</div>           
     				
-						<label>Blinken:</label><br>
+						<label>{{ 'BLINK' | translate }}:</label><br>
 						<div class="btn-group">
         					<label class="btn btn-primary" ng-model="value.frequency" btn-radio="'100'" uncheckable>Schnell</label>
         					<label class="btn btn-primary" ng-model="value.frequency" btn-radio="'500'" uncheckable>Normal</label>
@@ -98,40 +98,40 @@
     					</div>
     				</div>
     				</form>
-    				<button type="button" class="btn btn-primary" ng-show="!form.$pristine && !form.$invalid" ng-click="calldataCtrl.saveCalldata()">Speichern</button>    				
+    				<button type="button" class="btn btn-primary" ng-show="!form.$pristine && !form.$invalid" ng-click="calldataCtrl.saveCalldata()">{{ 'SAVE' | translate }}</button>    				
        				<i class="pull-right icon-large glyphicon glyphicon-trash" ng-show="key!='*'" ng-click="calldataCtrl.removeCalldata(key)"></i>
     			</accordion-group>
     			<accordion-group is-open="statusadd.open">
     			    <accordion-heading>
-        				Neuer Eintrag...
+        				{{ 'NEW_RECORD' | translate }}...
         				<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': statusadd.open, 'glyphicon-chevron-right': !statusadd.open}"></i>
         			</accordion-heading>
 					<form name="newform">
      				<div class="form-group">
-      					<label>Telefonnummer:</label>
+      					<label>{{ 'MSISDN' | translate }}:</label>
       					<input type="text" ng-model="calldataCtrl.m" class="form-control">
     
-        				<label>Name:</label>
+        				<label>{{ 'NAME' | translate }}:</label>
       					<input type="text" ng-model="calldataCtrl.n" class="form-control">
         				
-        				<label>Farbe:</label>
+        				<label>{{ 'COLOR' | translate }}:</label>
         				<div class="rainbox">
     						<input type="range" ng-model="calldataCtrl.hu" min="0" step="1" max="360">
     					</div>
     					
-    					<label>Helligkeit:</label>
+    					<label>{{ 'BRIGHTNESS' | translate }}:</label>
     					<div class="rainbox graybox">
     						<input type="range" ng-model="calldataCtrl.va" min="0" step="1" max="100">
     					</div>           
     				
 						<label>Blinken:</label><br>
 						<div class="btn-group">
-        					<label class="btn btn-primary" ng-model="calldataCtrl.f" btn-radio="'100'" uncheckable>Schnell</label>
-        					<label class="btn btn-primary" ng-model="calldataCtrl.f" btn-radio="'500'" uncheckable>Normal</label>
-        					<label class="btn btn-primary" ng-model="calldataCtrl.f" btn-radio="'1000'" uncheckable>Langsam</label>
+        					<label class="btn btn-primary" ng-model="calldataCtrl.f" btn-radio="'100'" uncheckable>{{ 'FAST' | translate }}</label>
+        					<label class="btn btn-primary" ng-model="calldataCtrl.f" btn-radio="'500'" uncheckable>{{ 'MEDIUM' | translate }}</label>
+        					<label class="btn btn-primary" ng-model="calldataCtrl.f" btn-radio="'1000'" uncheckable>{{ 'SLOW' | translate }}</label>
     					</div>
     				</div>
-    				<button type="button" class="btn btn-primary" ng-disabled="newform.$pristine|| newform.$invalid" ng-click="calldataCtrl.addCalldata()">Hinzufügen</button>
+    				<button type="button" class="btn btn-primary" ng-disabled="newform.$pristine|| newform.$invalid" ng-click="calldataCtrl.addCalldata()">{{ 'ADD' | translate }}</button>
     				</form>
     			</accordion-group>
     		</accordion>
@@ -153,6 +153,7 @@
     </script>
    	
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+    <script type="text/javascript" src="angular-translate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.3.1/less.min.js"></script>
     <script type="text/javascript" src="ui-bootstrap-tpls-0.12.0.min.js"></script> 
     <script type="text/javascript" src="clientapp.js"></script>
