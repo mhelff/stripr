@@ -24,6 +24,7 @@ var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
 var net = require('net');
+var util = require('util');
 var rgbtostrip = require('./rgbtostrip.js');
 var callsignal = require('./callsignal.js');
 

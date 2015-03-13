@@ -21,6 +21,7 @@
 
 
 var piblaster = require("pi-blaster.js");
+var util = require('util');
 
 var rgbtostrip = {
 	
@@ -68,6 +69,7 @@ var rgbtostrip = {
 		var oldmode = this.mode;
 		this.mode = newmode;
 		if(oldmode != this.mode) {
+                        util.log('Switching mode from ' + oldmode + ' to ' + this.mode);
 			this.startMode();	
 		} 
 	},
@@ -81,7 +83,7 @@ var rgbtostrip = {
 	},
 	
 	startMode: function() {
-		console.log('start mode: ' + this.mode);
+		util.log('start mode: ' + this.mode);
 		if(this.mode == 'single') {
 			this.fader.stopFade();
 			this.blinker.stopBlink();
@@ -114,12 +116,13 @@ var rgbtostrip = {
    	  			}
    	  			
         		rgbtostrip.setColor(this.hue, rgbtostrip.v, true);   
-               }).bind(this), 10 ); 
+               }).bind(this), 10 );
+            util.log('Started fader'); 
       	},
       	
     	stopFade: function() {
             clearInterval(this.iv);
-            console.log('Stopped fader');
+            util.log('Stopped fader');
       	}
  
     },
@@ -135,11 +138,12 @@ var rgbtostrip = {
                 }
                 this.onoff = !this.onoff;
              }, rgbtostrip.blinkFrequency ); 
+             util.log('Started blinker');
       	},
       
     	stopBlink: function() {
             clearInterval(this.blinkiv);
-            console.log('Stopped blinker');
+            util.log('Stopped blinker');
       	}
   	},
     
@@ -167,7 +171,7 @@ var rgbtostrip = {
 
 };
 
-console.log('Initializing rgbtostrip');
+util.log('Initializing rgbtostrip');
 rgbtostrip.setColor(0, 0);
 
 module.exports = rgbtostrip;

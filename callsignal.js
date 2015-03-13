@@ -21,6 +21,7 @@
 
 var net = require('net');
 var fs = require('fs');
+var util = require('util');
 var rgbtostrip = require('./rgbtostrip.js');
 
 var callsignal = {
@@ -32,9 +33,9 @@ var callsignal = {
 		filename = fs.realpathSync(__dirname) + '/calldata.json';
 		try {
 			this.calldata = JSON.parse(fs.readFileSync(filename, 'utf8'));
-			console.log('calldata read from file');
+			util.log('calldata read from file');
 		} catch( e ) {
-			console.log('calldata file does not exist, using default data');
+			util.log('calldata file does not exist, using default data');
 		}
 	},
 	
@@ -43,16 +44,16 @@ var callsignal = {
 		
 		fs.writeFile(filename, JSON.stringify(this.calldata, null, 4), function(err) {
     		if(err) {
-      			console.log(err);
+      			util.log(err);
     		} else {
-      			console.log("JSON saved to " + filename);
+      			util.log("JSON saved to " + filename);
     		}
 		}); 
 	},
 	
 	getCalldata: function(msisdn) {
 		if( msisdn in this.calldata ) {
-			console.log('found msisdn!');
+			util.log('found msisdn!');
 			return this.calldata[msisdn];
 		} else {
 			return this.calldata['*'];
@@ -63,7 +64,7 @@ var callsignal = {
 
 		var client = net.createConnection(port, host,
     		function() { //'connect' listener
-  				console.log('connected to server!'); 			
+  			util.log('connected to server'); 			
 			});
 			
 		client.on('data', function(data) {
@@ -75,26 +76,36 @@ var callsignal = {
      			rgbtostrip.blinkHue = blinkdata.hue;
      			rgbtostrip.blinkV = blinkdata.v;
      			rgbtostrip.blinkFrequency = blinkdata.frequency;
-     			console.log('Its ringing: ' + msisdn);
+     			util.log('Its ringing: ' + msisdn);
      			this.orgMode = rgbtostrip.mode;
+                        // just in case nothing was set before, switch back to single color after call signal
+                        if(this.orgMode === undefined) {
+                          this.orgMode = 'single';
+                        }
      			rgbtostrip.setMode('blink');  
   			}
   		
   			if(cmd == 'CONNECT') {
-     			console.log('Its connecting');
-     			rgbtostrip.setMode(this.orgMode);
+     			util.log('Its connecting');
+                        // only reset if we are blinking
+                        if(rgbtostrip.mode == 'blink') {
+     			    rgbtostrip.setMode(this.orgMode);
+                        }
   			}
   		
   			if(cmd == 'DISCONNECT') {
-     			console.log('Its disconnecting');
-     			rgbtostrip.setMode(this.orgMode);
+     			util.log('Its disconnecting');
+                        // only reset if we are blinking
+                        if(rgbtostrip.mode == 'blink') {
+     			    rgbtostrip.setMode(this.orgMode);
+                        }
    			}
 
   			// console.log(data.toString());
 		});
 		
 		client.on('end', function() {
-  			console.log('disconnected from server');
+  			util.log('disconnected from server');
   			startListener('fritz.box', 1012);
 		});
 	}
