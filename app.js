@@ -56,8 +56,12 @@ app.post('/setcalldata', function (req, res) {
     res.send('ok');
 });
 
+function startListener() {
+	callsignal.startListener('fritz.box', 1012);
+}
+
 // init call listener
 callsignal.loadCalldata();
-callsignal.startListener('fritz.box', 1012);
+setInterval(startListener, 1000);
  
 module.exports = app;

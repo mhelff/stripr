@@ -29,6 +29,8 @@ var callsignal = {
 	// default: blink red on incoming call every 500 ms
 	calldata: { '*': {'hue': '0', 'v': '100', 'frequency': '500', 'name': 'Standard'} },
 	
+	connected: false,
+	
 	loadCalldata: function() {
 		filename = fs.realpathSync(__dirname) + '/calldata.json';
 		try {
@@ -62,10 +64,15 @@ var callsignal = {
 	
 	startListener: function(host, port) {
 
-		var client = net.createConnection(port, host,
-    		function() { //'connect' listener
-  			util.log('connected to server'); 			
+		if(!callsignal.connected) {
+          	util.log('connecting to server');
+			var client = net.createConnection(port, host,
+    			function() { //'connect' listener
+  				util.log('connected to server');
+  				callsignal.connected = true;	
 			});
+		
+			client.on('error', function (e) { util.log("error connecting: " + e); });	
 			
 		client.on('data', function(data) {
   			cmd = getCommand(data.toString());
@@ -106,8 +113,9 @@ var callsignal = {
 		
 		client.on('end', function() {
   			util.log('disconnected from server');
-  			startListener('fritz.box', 1012);
+  			callsignal.connected = false;
 		});
+		}
 	}
 }
 
